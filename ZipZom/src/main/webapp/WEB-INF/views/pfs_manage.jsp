@@ -361,7 +361,7 @@
 				<section>
 					<div class="input-group md-3">						
 						<div class="icheck-primary d-inline" style="margin-right: 20px; ">
-                        <input type="checkbox" id="checkbox1" name="r1" value="매매" aria-controls="example2">
+                        <input type="checkbox" id="checkbox1" name="r" value="매매" aria-controls="example2">
                         <label for="checkbox1">
 						<span>매매</span>
                         </label>
@@ -372,7 +372,7 @@
 				<section>
 					<div class="input-group md-3">
                       	<div class="icheck-primary d-inline" style="margin-right: 20px; ">
-                        <input type="checkbox" id="checkbox2" name="r2" value="전세" aria-controls="example2" />
+                        <input type="checkbox" id="checkbox2" name="r" value="전세" aria-controls="example2" />
                         <label for="checkbox2">
                         <span>전세</span>
                         </label>
@@ -383,7 +383,7 @@
 				<section>
 					<div class="input-group md-3">
                       	<div class="icheck-primary d-inline" style="margin-right: 20px; ">
-                        <input type="checkbox" id="checkbox3" name="r3" value="월세" aria-controls="example2" />
+                        <input type="checkbox" id="checkbox3" name="r" value="월세" aria-controls="example2" />
                         <label for="checkbox3">
                         <span>월세</span>
                         </label>
@@ -397,17 +397,18 @@
 					<div class="input-group mb-3">
 					<span style="margin-right: 10px; margin-top: 10px;">매매가</span>
 					<input type="text" class="form-control" style="width: 100px; margin-top: 5px;" >
-					<span class="input-group-text" style="margin-right: 10px; margin-top: 5px;" ">만원</span>
+					<span class="input-group-text" style="margin-right: 10px; margin-top: 5px;" >만원</span>
 					<span style="margin-top: 10px;">~</span>
 					<input type="text" class="form-control" style="width: 100px; margin-left: 10px; margin-top: 5px;" >
-					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;" ">만원</span>
+					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;">만원</span>
+					</div>
 				</section>
 
 				<section>
 					<div class="input-group mb-3">
 					<span style="margin-right: 10px; margin-top: 10px;">건축년도</span>
 					<input type="text" class="form-control" style="width: 100px; margin-top: 5px;" >
-					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;" ">년</span>
+					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;">년</span>
 					</div>
 				</section>
 
@@ -415,10 +416,10 @@
 					<div class="input-group mb-3">
 					<span style="margin-right: 10px; margin-top: 10px;">전용면적</span>
 					<input type="text" class="form-control" style="width: 100px; margin-top: 5px;" >
-					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;" ">m²</span>
+					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;">m²</span>
 					<span style="margin-top: 10px;">~</span>
 					<input type="text" class="form-control" style="width: 100px; margin-left: 10px; margin-top: 5px;" >
-					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;" ">m²</span>
+					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;">m²</span>
 					</div>
 				</section>
 				

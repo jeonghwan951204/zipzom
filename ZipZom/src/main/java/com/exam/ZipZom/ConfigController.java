@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.springframework.ui.Model;
 import org.apache.ibatis.session.SqlSession;
 
@@ -29,7 +31,6 @@ import modelTO.userTO;
 import modelDAO.MailSender;
 import modelDAO.encryption;
 import modelTO.auth_passwordTO;
-import modelTO.userTO;
 @Controller
 public class ConfigController {
 
@@ -39,25 +40,67 @@ public class ConfigController {
 	@Autowired
 	private TestMapper testmapper;
 	
+	// sns회원가입 창에서 회원가입 버튼을 누른 경우
+	@RequestMapping("/sns_register_ok.action")
+	public String snsRegisterOk(HttpServletRequest request,userTO uto,HttpSession session) {
+		
+		String address = request.getParameter("zipNo") + " " + request.getParameter("roadAddrPart1") + request.getParameter("roadAddrPart2") + request.getParameter("addrDetail");
+		
+
+		uto.setAddress(address);
+		int flag = 0;
+		flag = (int)testmapper.snsRegister(uto);
+		uto = testmapper.snsLogin(uto);
+		if(flag == 1) {
+			session.setAttribute("snsId", uto.getSnsId());
+			session.setAttribute("name", uto.getName());
+			session.setAttribute("seqU", uto.getSeqU());
+		}
+		request.setAttribute("flag", flag);
+		
+		return "sns_register_ok";
+	}
+	
+	//sns가입창으로
+	@RequestMapping("/sns_register.action")
+	public String snsRegister(HttpServletRequest request,HttpSession session) {
+		String location = "";
+		userTO uto = new userTO();
+		String snsId = request.getParameter("snsId");
+		uto.setSnsId(snsId);
+		uto = testmapper.snsLogin(uto);
+		if(uto != null) {
+			session.setAttribute("snsId", uto.getSnsId());
+			session.setAttribute("name", uto.getName());
+			session.setAttribute("seqU", uto.getSeqU());
+			location = "newDashboard";
+		} else {
+			location = "sns_register";
+		}
+		
+		
+		return location;
+	}
+	//네이버 로그인
+	@RequestMapping("/naverlogin.action")
+	public String naverLogin(HttpServletRequest request, HttpServletResponse response,Model model) {
+		
+	return "naverlogin";
+	}
+	
+	@RequestMapping("/navercallback.action")
+	public String naverCallback(HttpServletRequest request, HttpServletResponse response,Model model) {
+		
+	return "navercallback";
+	}
 	// 주소 API popup
 	@RequestMapping(value = "/jusoPopup.action")
 	public ModelAndView jusoPupupRequest(HttpServletRequest request) {
-		int id = Integer.parseInt(request.getParameter("id"));
 		ModelAndView modelAndView = new ModelAndView();
-		request.setAttribute("id", id);
 		modelAndView.setViewName("jusoPopup");
-
 		return modelAndView;
 	}
-	
-	@RequestMapping(value = "/jusoPopup2.do")
-	public ModelAndView jusoPupupRequest2(HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("jusoPopup2");
 
-		return modelAndView;
-	}
-	
 	// 비밀번호 찾기 초기화면
 	@RequestMapping(value = "/forgot_password.action")
 	public ModelAndView forgotPasswordRequest(HttpServletRequest request) {
@@ -101,7 +144,7 @@ public class ConfigController {
 	// 로그인 초기화면
 	@RequestMapping(value = "/start.action")
 	public ModelAndView startRequest(HttpServletRequest request) {
-
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("start");
 
@@ -139,7 +182,8 @@ public class ConfigController {
 		if(sqlSession.selectOne("loginSelect", to) != null) {
 			flag = 1;
 			to = sqlSession.selectOne("loginSelect", to);
-			System.out.println("seqU : " +to.getSeqU());
+			//System.out.println("seqU : " +to.getSeqU());
+			session.setAttribute("name", to.getName());
 			session.setAttribute("s_id", to.getId());
 			session.setAttribute("seqU", to.getSeqU());
 		}
@@ -163,19 +207,19 @@ public class ConfigController {
 		String name = request.getParameter("name"); 
 		String id = request.getParameter("id"); 
 		String password = enc.encryptionMain(request.getParameter("password")); 
-		String address = request.getParameter("zipNo") + request.getParameter("roadAddrPart1") + request.getParameter("roadAddrPart2") + request.getParameter("addrDetail");
+		String address = request.getParameter("zipNo") + " " + request.getParameter("roadAddrPart1") + request.getParameter("roadAddrPart2") + request.getParameter("addrDetail");
 		String email = request.getParameter("email"); 
 		String phone = request.getParameter("phone");
 		String tel = request.getParameter("tel");
 		
-		
+		to.setType("normal");
 		to.setName(name);
 		to.setId(id);
 		to.setPassword(password);
 		to.setAddress(address);
 		to.setEmail(email);
-		to.setTel1(phone);
-		to.setTel2(tel);
+		to.setPhone(phone);
+		to.setTel(tel);
 		
 		int flag = 0;
 		
@@ -406,14 +450,13 @@ public class ConfigController {
 		userTO to = new userTO();
 		encryption enc = new encryption();
 		
-//		int seqU = Integer.parseInt(request.getParameter("seqU"));
-//		String password = enc.encryptionMain(request.getParameter("password"));
+		int seqU = Integer.parseInt(request.getParameter("seqU"));
+		String password = enc.encryptionMain(request.getParameter("password"));
 		
-//		to.setSeqU(seqU);
-//		to.setPassword(password);
+		to.setSeqU(seqU);
+		to.setPassword(password);
 		
-		to.setSeqU(1);
-		to.setPassword("123");
+		
 		
 		int flag = 0;
 		
@@ -434,11 +477,11 @@ public class ConfigController {
 
 		userTO to = new userTO();
 		
-//		int seqU = Integer.parseInt(request.getParameter("seqU"));
-//	
-//		to.setSeqU(seqU);
+		int seqU = Integer.parseInt(request.getParameter("seqU"));
+	
+		to.setSeqU(seqU);
 		
-		to.setSeqU(1);
+		//to.setSeqU(1);
 		
 		int flag = 0;
 		
@@ -511,8 +554,8 @@ public class ConfigController {
 				to.setPassword(passwordNew);
 				to.setAddress(address);
 				to.setEmail(email);
-				to.setTel1(phone);
-				to.setTel2(tel);
+				to.setPhone(phone);
+				to.setTel(tel);
 				flag = sqlSession.update("userPropertyUpdate", to);
 			}
 			
@@ -900,14 +943,13 @@ public class ConfigController {
 	return "data/flag_json";
 }
 	@RequestMapping("/consulting_rtp.do")
-	public String rtpSearch(HttpServletRequest request, HttpServletResponse response,Model model,customerTO cto) {
-
+	public String rtpSearch(HttpServletRequest request, HttpServletResponse response,customerTO cto) {
 		return "consulting_rtp";
 	}
 	
 	@RequestMapping("/consulting_map.do")
 	public String rtpMap(HttpServletRequest request, HttpServletResponse response,Model model,customerTO cto) {
-			System.out.println(request.getParameter("seqPfs1"));
+			//System.out.println(request.getParameter("seqPfs1"));
 		return "consulting_map";
 	}
 	
@@ -1148,8 +1190,8 @@ public class ConfigController {
 		// 실거래가 리스트
 		@RequestMapping("/rtp_list.json")
 		public String rtpList(HttpServletRequest request, HttpServletResponse response,Model model,HttpSession session,rtpTO rto) {
-		rto.setPseqRtp((Integer)session.getAttribute("seqU"));
-		ArrayList<rtpTO> rtpList = (ArrayList<rtpTO>)testmapper.rtpList(rto);
+		//rto.setPseqRtp((Integer)session.getAttribute("seqU"));
+		ArrayList<rtpTO> rtpList = (ArrayList<rtpTO>)testmapper.rtpList();
 		request.setAttribute("rtpList", rtpList);
 		return "data/rtp_list";
 		}

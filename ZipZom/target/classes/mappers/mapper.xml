@@ -2,29 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.exam.ZipZom.TestMapper">
+	<!-- sns 회원확인 -->
+	<select id="snsLogin" parameterType="modelTO.userTO" resultType="modelTO.userTO">
+		select sns_id snsId, name, seq_u seqU from user where sns_id = #{snsId}
+	</select>
+	<!-- sns 회원가입 -->
+	<insert id="snsRegister">
+	insert into user(type,name,create_date,email,address,phone,tel,sns_id)
+	values (#{type},#{name},now(),#{email},#{address},#{phone},#{tel},#{snsId})
+	</insert>
 	<!-- 로그인 확인 sql문 -->
 	<select id="loginSelect" parameterType="modelTO.userTO" resultType="modelTO.userTO">
-		select id,seq_u seqU from user where id=#{id} and password=#{password}
+		select id,seq_u seqU, name from user where id=#{id} and password=#{password}
 	</select>
 	<!-- 회원가입 시 회원 정보 입력 sql문 -->
 	<insert id="signUpInsert" parameterType="modelTO.userTO">
 		insert into user (
-		name, 
-		id, 
+		type,
+		name,
+		id,
+		create_date,
 		password, 
 		email, 
 		address, 
-		tel1, 
-		tel2
-		) 
+		phone, 
+		tel
+		)
 		values (
+		#{type},
 		#{name}, 
-		#{id}, 
+		#{id},
+		now(),
 		#{password}, 
 		#{email}, 
-		#{address}, 
-		#{tel1}, 
-		#{tel2}
+		#{address},
+		#{phone}, 
+		#{tel}
 		)
 	</insert>
 	<!-- 아이디 중복 검사 sql문 -->
@@ -96,8 +109,8 @@
 		ID as id,
 		EMAIL as email,
 		ADDRESS as address,
-		TEL1 as tel1, 
-		TEL2 as tel2
+		phone as phone, 
+		tel as tel
 		from user
 	</select>
 	
@@ -298,7 +311,7 @@
 		textColor, 
 		allday
 		from schedule
-		where PSEQ_S = ${pseqS}
+		where PSEQ_S = #{pseqS}
 	</select>
 	<!-- 일정 추가 sql문 -->
 	<insert id="scheduleInsert" parameterType="modelTO.scheduleTO">
@@ -371,11 +384,10 @@
 	where seq_pfs = #{seqPfs}
 	</select>
 	
-	
 	<!-- 실거래가 매물 리스트 -->
 	<select id="rtpFind" parameterType="modelTO.rtpTO" resultType="modelTO.rtpTO">
 	<![CDATA[
-	select seq_Rtp seqRtp,pseq_Rtp pseqRtp,si,gu,dong,bunji,b_name bName,b_type bType,area2,contract_date1 contractDate1,contract_date2 contractDate2,price,floor,b_year bYear,road_address roadAddress
+	select seq_Rtp seqRtp,si,gu,dong,bunji,b_name bName,b_type bType,area2,contract_date contractDate,price,floor,b_year bYear,road_address roadAddress
 	 from real_transaction_price
 	 where price <= #{budgetT1} and b_type = #{bType} and area2 >= #{area2} and b_year >= #{bYear} 
 	 order by dong asc
@@ -384,19 +396,20 @@
 	
 	<!-- 실거래매물 리스트 -->
 	<select id="rtpList" parameterType="modelTO.rtpTO" resultType="modelTO.rtpTO">
-	select seq_Rtp seqRtp,pseq_Rtp pseqRtp,si,gu,dong,bunji,b_name bName,b_type bType,area2,contract_date1 contractDate1,contract_date2 contractDate2,price,floor,b_year bYear,road_address roadAddress
+	select seq_Rtp seqRtp,si,gu,dong,bunji,b_name bName,b_type bType,area2,contract_date contractDate,format(price,0) price,floor,b_year bYear,road_address roadAddress
 	 from real_transaction_price order by dong asc
 	</select>
 	
 	<!-- 유저정보 view sql문 -->
 	<select id="userPropertyViewSelect" resultType="modelTO.userTO" parameterType="modelTO.userTO">
 		select SEQ_U as seqU,
-		NAME as name,
-		ID as id,
-		EMAIL as email,
-		ADDRESS as address,
-		TEL1 as tel1, 
-		TEL2 as tel2
+		name,
+		id,
+		email,
+		address,
+		phone, 
+		tel,
+		type
 		from user
 		where SEQ_U=${seqU}
 	</select>
@@ -407,8 +420,8 @@
 		password = #{password},
 		EMAIL = #{email},
 		ADDRESS = #{address},
-		TEL1 = #{tel1},
-		TEL2 = #{tel2}
+		phone = #{phone},
+		tel = #{tel}
 		where SEQ_U=${seqU}
 	</update>
 	

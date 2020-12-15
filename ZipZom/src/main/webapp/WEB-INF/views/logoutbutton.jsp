@@ -26,7 +26,7 @@
       </div>
     </form>   
     <div>
-      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-xl" style="width: 150px; margin-left:650px;" >
+      <button type="button" style="width: 150px; margin-left:650px;" >
       로그 아웃
       </button>
    </div>

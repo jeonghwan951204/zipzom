@@ -7,15 +7,15 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>ZipZom | Log in</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
- 
-<link rel="stylesheet" href="./resources3/css/animate.css">
+<link rel="stylesheet" href="./resources/css/animate.css">
 <!-- Custom Stylesheet -->
-<link rel="stylesheet" href="./resources3/css/style.css">
+<link rel="stylesheet" href="./resources/css/style.css">
 
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="./resources/plugins/jquery/jquery.min.js"></script>
-
+<!-- 네이버 로그인 js -->
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
 
 <script type="text/javascript">
 	$(document).ready(function () {
@@ -65,8 +65,6 @@
 
 </script>
 </head>
-
-
 <body>
 	<div class="container">
 		<div class="top">
@@ -85,8 +83,11 @@
 			<br/>
 			<input type="password" id="password" name="password" />
 			<br/>
-			<button type="button" id="btn">Sign In</button>
-			<br/>
+			<button type="button" id="btn">로그인</button>
+			<br/><br />
+			<!-- 네이버아이디로로그인 버튼 노출 영역 -->
+				<div id="naverIdLogin"></div>
+			<!-- <a href="./naverlogin.action"><img src="./image/naverbutton.png" width="200px" border='0'></a> -->
 			<a href="./forgot_id.action"><p class="small">아이디 찾기</p></a>
 			
 			<a href="./forgot_password.action"><p class="small">비밀번호 찾기</p></a>
@@ -100,12 +101,22 @@
 <script src="./resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="./resources/js/adminlte.min.js"></script>
-
-
+<script type="text/javascript">
+	var callback = "http://localhost:8080/ZipZom/navercallback.action";
+	var client = "20A8IB2Xc7jvgR2sa9WZ";
 	
-
+	var naverLogin = new naver.LoginWithNaverId(
+		{
+			clientId: client,
+			callbackUrl: callback,
+			isPopup: false, /* 팝업을 통한 연동처리 여부 */
+			loginButton: {color: "green", type: 3, height: 50}, /* 로그인 버튼의 타입을 지정 */ 
+			callbackHandle: false // callback 페이지 합치는지
+		}
+	); 
+	
+	/* 설정정보를 초기화하고 연동을 준비 */
+	naverLogin.init();
+</script>
 </body>
-
-
-
 </html>

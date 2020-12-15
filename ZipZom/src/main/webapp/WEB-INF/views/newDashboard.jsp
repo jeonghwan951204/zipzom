@@ -24,7 +24,20 @@
   <link rel="stylesheet" href="./resources/css/adminlte.min.css">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="./resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- jQuery -->
+	<script src="./resources/plugins/jquery/jquery.min.js"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script src="./resources/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#logout').on('click', function(){
+		location.href='./logout.action';
+	});
+});
+
+</script>
 </head>
 
 <body class="w3-content" style="max-width:1500px">
@@ -53,11 +66,18 @@
           </button>
         </div>
       </div>
-    </form>   
-    <div>
-      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-xl" style="width: 150px; margin-left:650px;" >
+    </form>
+    
+     
+      
+    <div style="width: 80%; padding-right: 30px; padding-top: 10px">
+    <ul style="float: right;">
+      <li style="float: left; list-style:none; font-size: 18px;margin-top: 5px; margin-right: 15px;"><%=session.getAttribute("name") %> 님</li>
+      
+      <li style="float:  left; list-style:none;"><button type="button" id="logout" class="btn btn-outline-primary" style="width: 100px; color: black;" >
       로그 아웃
       </button>
+      </li></ul>
    </div>
   </nav>
 
@@ -73,10 +93,10 @@
             <h1 class="m-0 text-dark"></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+      <!--       <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Main</li>
-            </ol>
+            </ol> -->
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -90,12 +110,6 @@
 
   </div>
 <!-- ./wrapper -->
-
-<!-- jQuery -->
-<script src="./resources/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="./resources/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>

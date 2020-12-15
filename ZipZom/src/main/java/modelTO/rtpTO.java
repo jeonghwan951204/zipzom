@@ -3,7 +3,6 @@ package modelTO;
 public class rtpTO {
 	// REAL TRANSACTION PRICE
 	private int seqRtp;
-	private int pseqRtp;
 	private String si;
 	private String gu;
 	private String dong;
@@ -11,8 +10,7 @@ public class rtpTO {
 	private String bName;
 	private String bType;
 	private int area2;
-	private String contractDate1;
-	private String contractDate2;
+	private String contractDate;
 	private int price;
 	private int floor;
 	private String bYear;
@@ -30,12 +28,6 @@ public class rtpTO {
 	}
 	public void setSeqRtp(int seqRtp) {
 		this.seqRtp = seqRtp;
-	}
-	public int getPseqRtp() {
-		return pseqRtp;
-	}
-	public void setPseqRtp(int pseqRtp) {
-		this.pseqRtp = pseqRtp;
 	}
 	public String getSi() {
 		return si;
@@ -73,17 +65,11 @@ public class rtpTO {
 	public void setArea2(int area2) {
 		this.area2 = area2;
 	}
-	public String getContractDate1() {
-		return contractDate1;
+	public String getContractDate() {
+		return contractDate;
 	}
-	public void setContractDate1(String contractDate1) {
-		this.contractDate1 = contractDate1;
-	}
-	public String getContractDate2() {
-		return contractDate2;
-	}
-	public void setContractDate2(String contractDate2) {
-		this.contractDate2 = contractDate2;
+	public void setContractDate(String contractDate) {
+		this.contractDate = contractDate;
 	}
 	public int getPrice() {
 		return price;

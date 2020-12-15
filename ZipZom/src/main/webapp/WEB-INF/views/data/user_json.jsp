@@ -18,8 +18,9 @@
 		String id = to.getId();
 		String email = to.getEmail();
 		String address = to.getAddress();
-		String tel1 = to.getTel1();
-		String tel2 = to.getTel2();
+		String phone = to.getPhone();
+		String tel = to.getTel();
+		String type = to.getType();
 		
 		JSONObject obj = new JSONObject();
 
@@ -28,8 +29,9 @@
 		obj.put("id", id);
 		obj.put("email", email);
 		obj.put("address", address);
-		obj.put("tel1", tel1);
-		obj.put("tel2", tel2);
+		obj.put("phone", phone);
+		obj.put("tel", tel);
+		obj.put("type", type);
 		
 		jsonArray.add(obj);
 	}

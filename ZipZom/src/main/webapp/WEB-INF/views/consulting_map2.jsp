@@ -17,7 +17,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ea1cd4df3dc8369022db16f972c085c3&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62d0780bbba35a4bbb3df4a6d92526b5&libraries=services,clusterer,drawing"></script>
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="./resources/plugins/fontawesome-free/css/all.min.css">
@@ -372,7 +372,7 @@
 	
 	function goPopup(){
 		// 주소 팝업창 경로
-	    var pop = window.open("./jusoPopup2.do","pop","width=570,height=420, scrollbars=yes, resizable=yes");
+	    var pop = window.open("./jusoPopup.do","pop","width=570,height=420, scrollbars=yes, resizable=yes");
 	}
 	function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
 							, detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){

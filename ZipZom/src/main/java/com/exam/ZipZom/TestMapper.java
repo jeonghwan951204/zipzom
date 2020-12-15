@@ -45,5 +45,7 @@ public interface TestMapper {
 	public abstract pfsAllTO pfsView(int seqPfs);
 	public abstract customerTO customerInfo(customerTO cto);
 	public abstract ArrayList<rtpTO> rtpFind(customerTO cto);
-	public abstract ArrayList<rtpTO> rtpList(rtpTO rto);
+	public abstract ArrayList<rtpTO> rtpList();
+	public abstract int snsRegister(userTO uto);
+	public abstract userTO snsLogin(userTO uto);
 }

@@ -1,3 +1,5 @@
+<%@page import="modelTO.customerTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -39,7 +41,7 @@
  <script type="text/javascript">
   $(document).ready(function() {
       var param = null;
-      readServer(param);
+     // readServer(param);
             
        $('#customerFind').on('click', function(){
          var param = $('#find').serialize();
@@ -96,8 +98,7 @@
                     mytable += '<td>'+item.bunji+'</td>';
                     mytable += '<td>'+item.bName+'</td>';
                     mytable += '<td>'+item.area2+'</td>';
-                    mytable += '<td>'+item.contractDate1+'</td>';
-                    mytable += '<td>'+item.contractDate2+'</td>';
+                    mytable += '<td>'+item.contractDate+'</td>';
                     mytable += '<td>'+item.price+'</td>' ;
                     mytable += '<td>'+item.floor+'</td>';
                     mytable += '<td>'+item.bYear+'</td>';
@@ -148,8 +149,7 @@
 	                        mytable += '<td>'+item.bunji+'</td>';
 	                        mytable += '<td>'+item.bName+'</td>';
 	                        mytable += '<td>'+item.area2+'</td>';
-	                        mytable += '<td>'+item.contractDate1+'</td>';
-	                        mytable += '<td>'+item.contractDate2+'</td>';
+	                        mytable += '<td>'+item.contractDate+'</td>';
 	                        mytable += '<td>'+item.price+'</td>' ;
 	                        mytable += '<td>'+item.floor+'</td>';
 	                        mytable += '<td>'+item.bYear+'</td>';
@@ -206,8 +206,7 @@
    	                        mytable += '<td>'+item.bunji+'</td>';
    	                        mytable += '<td>'+item.bName+'</td>';
    	                        mytable += '<td>'+item.area2+'</td>';
-   	                        mytable += '<td>'+item.contractDate1+'</td>';
-   	                        mytable += '<td>'+item.contractDate2+'</td>';
+   	                        mytable += '<td>'+item.contractDate+'</td>';
    	                        mytable += '<td>'+item.price+'</td>' ;
    	                        mytable += '<td>'+item.floor+'</td>';
    	                        mytable += '<td>'+item.bYear+'</td>';
@@ -242,8 +241,7 @@
    	                        mytable += '<td>'+item.bunji+'</td>';
    	                        mytable += '<td>'+item.bName+'</td>';
    	                        mytable += '<td>'+item.area2+'</td>';
-   	                        mytable += '<td>'+item.contractDate1+'</td>';
-   	                        mytable += '<td>'+item.contractDate2+'</td>';
+   	                        mytable += '<td>'+item.contractDate+'</td>';
    	                        mytable += '<td>'+item.price+'</td>' ;
    	                        mytable += '<td>'+item.floor+'</td>';
    	                        mytable += '<td>'+item.bYear+'</td>';
@@ -278,8 +276,7 @@
    	                        mytable += '<td>'+item.bunji+'</td>';
    	                        mytable += '<td>'+item.bName+'</td>';
    	                        mytable += '<td>'+item.area2+'</td>';
-   	                        mytable += '<td>'+item.contractDate1+'</td>';
-   	                        mytable += '<td>'+item.contractDate2+'</td>';
+   	                        mytable += '<td>'+item.contractDate+'</td>';
    	                        mytable += '<td>'+item.price+'</td>' ;
    	                        mytable += '<td>'+item.floor+'</td>';
    	                        mytable += '<td>'+item.bYear+'</td>';
@@ -307,7 +304,7 @@
     	          success: function( json ) {
     	        	  $.each( json, function( index, item ) {
     	             if(json[name] != '') {
-    	            	 //$('#findname').val(json[name]);
+    	            	 //$('#findname').val(json[findname]);
     	            	 //console.log(index + ' ' + json[index]);
     	            	 $('#'+index).val(json[index]);
     	             } else {
@@ -340,8 +337,7 @@
     	                        mytable += '<td>'+item.bunji+'</td>';
     	                        mytable += '<td>'+item.bName+'</td>';
     	                        mytable += '<td>'+item.area2+'</td>';
-    	                        mytable += '<td>'+item.contractDate1+'</td>';
-    	                        mytable += '<td>'+item.contractDate2+'</td>';
+    	                        mytable += '<td>'+item.contractDate+'</td>';
     	                        mytable += '<td>'+item.price+'</td>' ;
     	                        mytable += '<td>'+item.floor+'</td>';
     	                        mytable += '<td>'+item.bYear+'</td>';
@@ -460,7 +456,8 @@
 					<!-- 고객 이름 -->
 	         		<li style="margin-right: 10px; margin-top: 10px;">고객 이름</li>
 					<input type="text" class="form-control" id="findname" placeholder="이름" style="width: 120px; margin-right: 10px; margin-top: 5px;" readonly>
-					<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-rtp" style="width: 70px; margin-top:5px;">
+					
+					<button type="button"  class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-rtp" style="width: 70px; margin-top:5px;">
               		찾기
               		</button>
               		
@@ -570,10 +567,9 @@
 	                    <th>동</th>
 	                    <th>번지</th>
 	                    <th>건물이름</th>
-	                    <th>전용면적</th>
-	                    <th>계약년월</th>
-	                    <th>계약일</th>
-	                    <th>실거래가</th>
+	                    <th>전용면적(㎡)</th>
+	                    <th>계약날짜</th>
+	                    <th>실거래가(만)</th>
 	                    <th>층수</th>
 	                    <th>건축년도</th>
 	                    <th>도로명주소</th>

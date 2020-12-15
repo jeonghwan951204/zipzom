@@ -17,7 +17,7 @@
   </style>
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="./resources3/css/style.css">
+  <link rel="stylesheet" href="./resources/css/style.css">
     
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -41,6 +41,15 @@ var isCheckId = 0;
 var isCheckEmail = 0;
 
 $(document).ready(function() {
+	userInfo(<%= session.getAttribute("seqU")%>);
+	
+	if(<%=session.getAttribute("snsId") %> != null && <%=session.getAttribute("snsId") %> != '') {
+		//$('#id').prop('type', 'hidden');
+		//$('#password1').prop('type', 'hidden');
+		//$('#password2').prop('type', 'hidden');
+		//$('#passwordOri').prop('type', 'hidden');
+		$('.sns').hide();
+	}
 	
 	$("#btn").button().on('click', function() {
 		if( $('#name').val().trim() == "" ){
@@ -92,7 +101,7 @@ $(document).ready(function() {
 		checkEmail( email, <%= session.getAttribute("seqU")%> );
 	});
 	
-	userInfo(<%= session.getAttribute("seqU")%>);
+
 	
 });
 
@@ -128,9 +137,10 @@ var userInfo = function(seqU){
 			$('#id').val(json[0].id);
 			$('#name').val(json[0].name);
 			$('#email').val(json[0].email);
-			$('#phone').val(json[0].tel1);
-			$('#tel').val(json[0].tel2);
+			$('#phone').val(json[0].phone);
+			$('#tel').val(json[0].tel);
 			$('#roadAddrPart1').val( json[0].address);
+			$('.address').html(json[0].address);
 		}
 	}); 
 }
@@ -221,13 +231,12 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAdd
             </div>
           </div>
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 sns">
           <input type="text" class="form-control" id="id" name="id" placeholder="아이디" readonly>
           <div class="input-group-append">
-            
           </div>
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 sns">
           <input type="password" class="form-control"  id="passwordOri" name="passwordOri" placeholder="기존 비밀번호">
           <div class="input-group-append">
             <div class="input-group-text">
@@ -235,7 +244,7 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAdd
             </div>
           </div>
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 sns">
           <input type="password" class="form-control"  id="password1" name="password1" placeholder="새 비밀번호">
           <div class="input-group-append">
             <div class="input-group-text">
@@ -243,7 +252,7 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAdd
             </div>
           </div>
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 sns">
           <input type="password" class="form-control"  id="password2" name="password2" placeholder="새 비밀번호 확인">
           <div class="input-group-append">
             <div class="input-group-text">
@@ -281,10 +290,12 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAdd
 <!--           </div> -->
           
 <!--         </div> -->
-        <div class="input-group mb-3">
+<input type="hidden"  class="form-control" id="roadAddrPart1" name="roadAddrPart1" placeholder="도로명주소"  readonly >
+        <div class="input-group mb-3 address">
           
-		<input type="text"  class="form-control" id="roadAddrPart1" name="roadAddrPart1" placeholder="도로명주소"  readonly >
+		
           <div class="input-group-append">
+          
             <div class="input-group-text">
               <span class="fas fa-map"></span>
             </div>

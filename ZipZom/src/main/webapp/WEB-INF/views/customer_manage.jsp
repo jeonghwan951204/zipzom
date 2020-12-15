@@ -122,7 +122,7 @@
      }
      
                                               
-           var readServer = function() {    
+      var readServer = function() {    
          $.ajax({                         
             url: 'customer_list.json',   
             type: 'get',                 
@@ -201,7 +201,7 @@
                   }
                   // console.log($('#mcfrm').find('#'+name));
                    //console.log(json[index]);
-               //   $('#name').val(json.name);
+               $('#name').val(json.name);
                  });
             },
             error: function( e ) {

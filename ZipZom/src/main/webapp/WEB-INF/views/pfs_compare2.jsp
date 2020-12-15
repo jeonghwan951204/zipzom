@@ -37,7 +37,7 @@
 		seq[0] = $('#seqpfs1').val();
 		seq[1] = $('#seqpfs2').val();
 		seq[2] = $('#seqpfs3').val();
-		console.log(seq[0]);
+		//console.log(seq[0]);
 		add(param,seq);
 	 });
 	  
@@ -78,7 +78,7 @@
           success: function( json ) {
         	  $.each( json.data, function( index, item ) {
 					if(seq[0] == 0) {
-						console.log(item.area1);
+						//console.log(item.area1);
 						$('#seqpfs1').val(item.seqPfs);
 						$('#address1').text(item.address);
 						$('#contractType1').text(item.contractType);
