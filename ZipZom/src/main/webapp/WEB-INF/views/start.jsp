@@ -102,15 +102,15 @@
 <!-- AdminLTE App -->
 <script src="./resources/js/adminlte.min.js"></script>
 <script type="text/javascript">
-	var callback = "http://localhost:8080/ZipZom/navercallback.action";
-	var client = "20A8IB2Xc7jvgR2sa9WZ";
+	var callback = "http://54.180.188.156:8080/ZipZom/navercallback.action";
+	var client = "O2sFLrmXWbQzyWS8XphT";
 	
 	var naverLogin = new naver.LoginWithNaverId(
 		{
 			clientId: client,
 			callbackUrl: callback,
-			isPopup: false, /* 팝업을 통한 연동처리 여부 */
-			loginButton: {color: "green", type: 3, height: 50}, /* 로그인 버튼의 타입을 지정 */ 
+			isPopup: false,  /*팝업을 통한 연동처리 여부 */
+			loginButton: {color: "green", type: 3, height: 50},  /*로그인 버튼의 타입을 지정  */
 			callbackHandle: false // callback 페이지 합치는지
 		}
 	); 

@@ -47,13 +47,12 @@
 		}
 		for(int i=0;i<strSecurity.length;i++){
 			if(!strSecurity[i].equals("")) {
-				secu += strSecurity[i]+ " ";
+				secu += strSecurity[i]+ ", ";
 			}
-			if(!strSecurity[6].equals("")) {
-				secu += strSecurity[i];
-				System.out.println(secu);
-			}
+			
 		}
+		secu = secu.substring(0,secu.length()-2);
+		System.out.println(secu);
 		table.append("<div class='card'>");
 		table.append("<table class='type03'>");
         table.append("<thead>");

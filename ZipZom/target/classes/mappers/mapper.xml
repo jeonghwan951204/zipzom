@@ -231,7 +231,7 @@
 	</insert>
 	<!-- 매물 리스트 -->
 	<select id="pfsList" parameterType="modelTO.pfsTO" resultType="modelTO.pfsTO">
-	select seq_pfs seqPfs,b_type bType,contract_type contractType,si,gu,dong,bunji,h_number hNumber,budget1,budget2,budget3,loan,wdate
+	select seq_pfs seqPfs,b_type bType,contract_type contractType,area1,si,gu,dong,bunji,h_number hNumber,budget1,budget2,budget3,loan,wdate
 	 from property_for_sale
 	 where pseq_pfs = #{pseqPfs} order by seq_pfs desc
 	</select>

@@ -261,7 +261,10 @@ public class ConfigController {
 		public ModelAndView duplicateEmailRequest(HttpServletRequest request) {
 
 			userTO to = new userTO();
-			int seqU = Integer.parseInt(request.getParameter("seqU"));
+			int seqU = 0;
+			if(request.getParameter("seqU") != null) {
+				seqU = Integer.parseInt(request.getParameter("seqU"));	
+			}
 			String email = request.getParameter("email");
 			
 			to.setEmail(email);
@@ -271,7 +274,7 @@ public class ConfigController {
 			
 			if(sqlSession.selectOne("duEmailSelect", to) != null) {
 				flag = 1;	
-				if(sqlSession.selectOne("duOwnEmailSelect", to) != null) {
+				if(sqlSession.selectOne("duOwnEmailSelect", to) != null && request.getParameter("seqU") != null) {
 					flag = 0;
 				}
 			}
@@ -634,21 +637,6 @@ public class ConfigController {
 		to.setTextColor(textColor);
 		to.setAllDay(allDay);
 		
-//		to.setPseqS(1);
-//		to.setCustomerName("박성훈");
-//		to.setCustomerTel("123123");
-//		to.setCustomerState("인도인");
-//		to.setStart("2020-10-07T09:30");
-//		to.setEnd("2020-10-07T12:30");
-//		to.setContext("내용33333");
-//		to.setScheduleType("전화");
-//		to.setProgress("진행중");
-//		to.setbType("아파트");
-//		to.setContractType("매매");
-//		to.setBackgroundColor("#D25565");
-//		to.setTextColor("#ffffff");
-//		to.setAllDay(1);
-		
 		int flag = 0;
 		
 		flag = sqlSession.insert("scheduleInsert", to);
@@ -703,20 +691,6 @@ public class ConfigController {
 		to.setTextColor(textColor);
 		to.setAllDay(allDay);
 		
-//		to.setSeqS(1);
-//		to.setCustomerName("박성훈");
-//		to.setCustomerTel("123123");
-//		to.setCustomerState("인도인");
-//		to.setStart("2020-10-07T09:30");
-//		to.setEnd("2020-10-07T12:30");
-//		to.setContext("내용33333");
-//		to.setScheduleType("전화");
-//		to.setProgress("진행중");
-//		to.setbType("아파트");
-//		to.setContractType("매매");
-//		to.setBackgroundColor("#D25565");
-//		to.setTextColor("#ffffff");
-//		to.setAllDay(1);
 		
 		int flag = 0;
 		

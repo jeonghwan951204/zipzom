@@ -419,10 +419,10 @@
 
 </div>
 <script type="text/javascript">
-$('#moveSchedule').datepicker();
-$('#visitDate').datepicker();
-$('#moveSchedule').datepicker('option', 'dateFormat', 'yy-mm-dd');
-$('#visitDate').datepicker('option', 'dateFormat', 'yy-mm-dd');
+$('#moveSchedule1').datepicker();
+$('#visitDate1').datepicker();
+$('#moveSchedule1').datepicker('option', 'dateFormat', 'yy-mm-dd');
+$('#visitDate1').datepicker('option', 'dateFormat', 'yy-mm-dd');
 </script>
 
 </body>

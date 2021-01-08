@@ -44,16 +44,25 @@
   <link rel="stylesheet" href="./resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <script type="text/javascript">
   $(document).ready(function() {
-      readServer();
-
-      
+       readServer();
+		
+      $('#filter').on('click', function(){
+    	  $('#example2').DataTable().destroy();
+    	  var contract = $('#contract option:selected').val();
+    	  var price1 = $('#price1').val();
+    	  var price2 = $('#price2').val();
+    	  var area1 = $('#a1').val();
+    	  var area2 = $('#a2').val();
+    	  filterServer(contract,price1,price2,area1,area2);
+    	  //alert(price1);
+      })
+     
       $('#pfsWrite').on('click', function(){
          var params = $('#form').serialize();
          writeServer(params);
       })
       
-      $("#example2 tbody").on("click","tr",function(){ 	
-		//console.log($(this).find('td:eq(0)').text());
+      $("#example2 tbody").on("click","tr",function(){
       	viewServer($(this).find('td:eq(0)').text());
       });
       
@@ -202,9 +211,6 @@
               		if($('#form2').find('#'+name).attr('type') == 'checkbox' && json[name] == 1){
               			$('#form2').find('#'+name).prop("checked", true); 
               		}
-                    // console.log($('#mcfrm').find('#'+name));
-                     //console.log(json[index]);
-                 //	$('#name').val(json.name);
                    });
               },
               error: function( e ) {
@@ -246,7 +252,7 @@
              success: function( data ) {
                 if(data.flag == 1) {
                    $('#example2').DataTable().destroy();
-                   readServer(1);
+                   readServer();
                 } else {
                    alert('잘못 입력했습니다')
                 }
@@ -256,6 +262,41 @@
              }
           })
           };
+          
+          var filterServer = function(contract,price1,price2,area1,area2) {    
+              $.ajax({                         
+                 url: 'pfs_list.json',   
+                 type: 'get',                 
+                 dataType: 'json',            
+                 success: function( json ) {  
+                    $( '#myTable' ).empty();
+                    $.each( json.data, function( index, item ) {
+                    	if(item.contractType == contract && price1 <= item.budget1 && item.budget1 <= price2 && item.area1 <= area2 && area1 <= item.area1) {
+                   	 var mytable = '<tr data-toggle="modal" data-target="#modal2" >'
+                   		 mytable += '<th onclick="event.cancelBubble=true">';
+                   		 mytable += '<div class="custom-control custom-checkbox">';
+                   		 mytable += '<input class="custom-control-input" type="checkbox" name="selectPfs" id="customCheckbox'+index+'" value="'+item.seqPfs+'">';
+                   		 mytable += '<label for="customCheckbox'+index+'" class="custom-control-label"></label></div></th>';
+                   		 mytable += '<td>'+item.seqPfs+'</td>';
+                       	 mytable += '<td>'+item.bType+'</td>';
+       	                 mytable += '<td>'+item.contractType+'</td>';
+       	                 mytable += '<td>'+item.si+' '+item.gu+' '+' '+item.dong+' '+item.bunji+' '+item.hNumber+'</td>';
+       	                 mytable += '<td>'+item.budget1+'</td>';
+       	                 mytable += '<td>'+item.budget2+'</td>' ;
+       	                 mytable += '<td>'+item.budget3+'</td>';
+       	                 mytable += '<td>'+item.loan+'</td>';
+       	                 mytable += '<td>'+item.wdate+'</td></tr>';
+                    	console.log(mytable);
+                       $( '#myTable' ).append( mytable );
+                       }
+                    });
+       				table();
+                 },
+                 error: function( e ) {
+                    alert( '서버 에러 ' + e );
+                 }
+              })
+             }
       
       </script>
 </head>
@@ -348,47 +389,11 @@
 				</section>
 				
 				<section>
-					<div class="input-group md-3">
-						<div class="icheck-primary d-inline" style="margin-right: 20px; ">
-                        <input type="checkbox" id="check_all" name="check_all" value="1" checked aria-controls="example2" />
-                        <label for="check_all">
-                        <span>전체</span>
-                        </label>
-                        </div>
-					</div>
-				</section>
-				
-				<section>
-					<div class="input-group md-3">						
-						<div class="icheck-primary d-inline" style="margin-right: 20px; ">
-                        <input type="checkbox" id="checkbox1" name="r" value="매매" aria-controls="example2">
-                        <label for="checkbox1">
-						<span>매매</span>
-                        </label>
-                      	</div>
-					</div>
-				</section>
-				
-				<section>
-					<div class="input-group md-3">
-                      	<div class="icheck-primary d-inline" style="margin-right: 20px; ">
-                        <input type="checkbox" id="checkbox2" name="r" value="전세" aria-controls="example2" />
-                        <label for="checkbox2">
-                        <span>전세</span>
-                        </label>
-                      	</div>
-					</div>
-				</section>
-				
-				<section>
-					<div class="input-group md-3">
-                      	<div class="icheck-primary d-inline" style="margin-right: 20px; ">
-                        <input type="checkbox" id="checkbox3" name="r" value="월세" aria-controls="example2" />
-                        <label for="checkbox3">
-                        <span>월세</span>
-                        </label>
-                      	</div>
-					</div>
+					<select id="contract" style="width: 100px;">
+					<option>매매</option>
+					<option>전세</option>
+					<option>월세</option>
+					</select>
 				</section>
 			</div>
 			
@@ -396,36 +401,28 @@
 				<section>
 					<div class="input-group mb-3">
 					<span style="margin-right: 10px; margin-top: 10px;">매매가</span>
-					<input type="text" class="form-control" style="width: 100px; margin-top: 5px;" >
+					<input type="text" id="price1" value="0" class="form-control" style="width: 100px; margin-top: 5px;" >
 					<span class="input-group-text" style="margin-right: 10px; margin-top: 5px;" >만원</span>
 					<span style="margin-top: 10px;">~</span>
-					<input type="text" class="form-control" style="width: 100px; margin-left: 10px; margin-top: 5px;" >
+					<input type="text" id="price2" value="100000" class="form-control" style="width: 100px; margin-left: 10px; margin-top: 5px;" >
 					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;">만원</span>
 					</div>
 				</section>
 
 				<section>
 					<div class="input-group mb-3">
-					<span style="margin-right: 10px; margin-top: 10px;">건축년도</span>
-					<input type="text" class="form-control" style="width: 100px; margin-top: 5px;" >
-					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;">년</span>
-					</div>
-				</section>
-
-				<section>
-					<div class="input-group mb-3">
 					<span style="margin-right: 10px; margin-top: 10px;">전용면적</span>
-					<input type="text" class="form-control" style="width: 100px; margin-top: 5px;" >
+					<input type="text" id="a1" value="0" class="form-control" style="width: 100px; margin-top: 5px;" >
 					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;">m²</span>
 					<span style="margin-top: 10px;">~</span>
-					<input type="text" class="form-control" style="width: 100px; margin-left: 10px; margin-top: 5px;" >
+					<input type="text" id="a2" value="200" class="form-control" style="width: 100px; margin-left: 10px; margin-top: 5px;" >
 					<span class="input-group-text" style="margin-right: 30px; margin-top: 5px;">m²</span>
 					</div>
 				</section>
 				
 				<section>
 					<div class="input-group mb-3">
-					<button type="button" class="btn btn-primary" style="width: 100px; margin-top:5px;">
+					<button type="button" id="filter" class="btn btn-primary" style="width: 100px; margin-top:5px;">
 					검색하기
 					</button>
 					</div>
@@ -465,18 +462,6 @@
                   </tr>
                   </thead>
                   <tbody id="myTable" >
-                  <tr>
-                  	<th></th>
-					<th>매물 번호</th>
-                    <th>타입</th>
-                    <th>거래 유형</th>
-                    <th>매물 주소</th>
-                    <th>매도금액</th>
-                    <th>(현)보증금</th>
-                    <th>(현)월임대료</th>
-                    <th>융자금</th>
-                    <th>등록일</th>
-                    </tr>
                   </tbody>             
                 </table>
                 <div class="modal-footer justify-content-left">
@@ -557,88 +542,8 @@
 <script src="./resources/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="./resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
-<!-- 테이블 검색기능(필터) -->
-<!-- <script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-  $("#check_all").on("click", function() {
-	    readServer();
-	  });
-  
-  $("#checkbox1").on("change", function() {
-	    var value = $(this).val().toLowerCase();
-	    if($('#checkbox1').is(':checked')){
-	    $("#myTable tr").filter(function() {
-	      $(this).toggle($(this).children().eq(3).text().toLowerCase().indexOf(value) > -1)
-	    });
-	    } else {
-	    	readServer();
-	    }
-	  });
-  
-  $("#checkbox2").on("click", function() {
-	    var value = $(this).val().toLowerCase();
-	    $("#myTable tr").filter(function() {
-	      $(this).toggle($(this).children().eq(3).text().toLowerCase().indexOf(value) > -1)
-	    });
-	  });
-  
-  $("#checkbox3").on("click", function() {
-	    var value = $(this).val().toLowerCase();
-	    $("#myTable tr").filter(function() {
-	      $(this).toggle($(this).children().eq(3).text().toLowerCase().indexOf(value) > -1)
-	    });
-	  });
-});
-
-$("#example2").click(function(){ 	
-
-	var str = ""
-	var tdArr = new Array();	// 배열 선언
-	
-	// 현재 클릭된 Row(<tr>)
-	var tr = $(this);
-	var td = tr.children();
-	
-	// tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
-	console.log("클릭한 Row의 모든 데이터 : "+tr.text());
-	
-	// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
-	td.each(function(i){
-		tdArr.push(td.eq(i).text());
-	});
-	
-	console.log("배열에 담긴 값 : "+tdArr);
-	
-	// td.eq(index)를 통해 값을 가져올 수도 있다.
-	var no = td.eq(0).text();
-	var userid = td.eq(1).text();
-	var name = td.eq(2).text();
-	var email = td.eq(3).text();
-	
-	
-	str +=	" * 클릭된 Row의 td값 = No. : <font color='red'>" + no + "</font>" +
-			", 아이디 : <font color='red'>" + userid + "</font>" +
-			", 이름 : <font color='red'>" + name + "</font>" +
-			", 이메일 : <font color='red'>" + email + "</font>";		
-	
-
-});
-</script> -->
 <script>
   $(function () {
-    //Initialize Select2 Elements
-    //$('.select2').select2()
-
-    //Initialize Select2 Elements
-   /*  $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    }) */
 
     //Datemask dd/mm/yyyy
     $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })

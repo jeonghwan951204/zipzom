@@ -21,6 +21,7 @@
 		int budget3 = pto.getBudget3();
 		String loan = pto.getLoan();
 		String wdate = pto.getWdate();
+		int area1 = pto.getArea1();
 
 
 
@@ -36,6 +37,7 @@
 		jsonObject.put("bunji",bunji);
 		jsonObject.put("hNumber", hNumber);
 		jsonObject.put("contractType",contractType);
+		jsonObject.put("area1",area1);
 		jsonObject.put("budget1",budget1);
 		jsonObject.put("budget2",budget2);
 		jsonObject.put("budget3",budget3);
